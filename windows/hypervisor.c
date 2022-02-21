@@ -1,5 +1,5 @@
 #include <ntddk.h>
-#include <wdf.h>
+//#include <wdf.h>
 #include <wdm.h>
 
 #include "hypervisor.h"
@@ -10,15 +10,17 @@
 
 NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath) {
     NTSTATUS ntStatus = STATUS_SUCCESS;
-    UINT64 uiIndex = 0;
     PDEVICE_OBJECT pDeviceObject = NULL;
-    UNICODE_STRING usDriverName, usDosDeviceName;
+    UNICODE_STRING usDriverName;
+    UNICODE_STRING usDosDeviceName;
+
+    UNREFERENCED_PARAMETER(pRegistryPath);
 
     DbgPrint("[+] DriverEntry called");
 
     // Create device and alias
-    RtlInitUnicodeString(&usDriverName, L"\Device\Hypervisor");
-    RtlInitUnicodeString(&usDosDeviceName, L"\DosDevices\Hypervisor");
+    RtlInitUnicodeString(&usDriverName, L"\\Device\\Hypervisor");
+    RtlInitUnicodeString(&usDosDeviceName, L"\\DosDevices\\Hypervisor");
 
     ntStatus = IoCreateDevice(
             pDriverObject,
@@ -33,7 +35,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath
     if (ntStatus == STATUS_SUCCESS)
     {
         pDriverObject->DriverUnload = DrvUnload;
-        pDeviceObject->Flags |= IO_DEVICE_TYPE;
+        pDeviceObject->Flags |= IO_TYPE_DEVICE;
         pDeviceObject->Flags &= ~DO_DEVICE_INITIALIZING;
         IoCreateSymbolicLink(&usDosDeviceName, &usDriverName);
     }
@@ -48,7 +50,7 @@ VOID DrvUnload(PDRIVER_OBJECT pDriverObject)
 
     DbgPrint("[+] DrvUnload called");
 
-    RtlInitUnicodeString(&usDosDeviceName, L"\DosDevices\Hypervisor");
+    RtlInitUnicodeString(&usDosDeviceName, L"\\DosDevices\\Hypervisor");
     IoDeleteSymbolicLink(&usDosDeviceName);
     IoDeleteDevice(pDriverObject->DeviceObject);
 }
