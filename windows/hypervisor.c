@@ -54,15 +54,17 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath
         pDriverObject->MajorFunction[IRP_MJ_READ] = DrvRead;
         pDriverObject->MajorFunction[IRP_MJ_WRITE] = DrvWrite;
     } else {
-        DbgPrint("[-] Error creating device. Aborting...")
+        DbgPrint("[-] Error creating device. Aborting...");
     }
 
     return ntStatus;
 }
 
 
-NTSTATUS DrvUnsupported(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
+NTSTATUS DrvUnsupported(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 {
+    UNREFERENCED_PARAMETER(pDeviceObject);
+
     DbgPrint("[-] Major function not supported!");
 
     // Simply complete the IRP request
@@ -73,8 +75,10 @@ NTSTATUS DrvUnsupported(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
     return STATUS_SUCCESS;
 }
 
-NTSTATUS DrvCreate(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
+NTSTATUS DrvCreate(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 {
+    UNREFERENCED_PARAMETER(pDeviceObject);
+
     // Simply complete the IRP request
     pIrp->IoStatus.Status = STATUS_SUCCESS;
     pIrp->IoStatus.Information = 0;
@@ -83,8 +87,10 @@ NTSTATUS DrvCreate(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
     return STATUS_SUCCESS;
 }
 
-NTSTATUS DrvIoctlDispatcher(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
+NTSTATUS DrvClose(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 {
+    UNREFERENCED_PARAMETER(pDeviceObject);
+
     // Simply complete the IRP request
     pIrp->IoStatus.Status = STATUS_SUCCESS;
     pIrp->IoStatus.Information = 0;
@@ -93,8 +99,10 @@ NTSTATUS DrvIoctlDispatcher(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
     return STATUS_SUCCESS;
 }
 
-NTSTATUS DrvRead(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
+NTSTATUS DrvIoctlDispatcher(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 {
+    UNREFERENCED_PARAMETER(pDeviceObject);
+
     // Simply complete the IRP request
     pIrp->IoStatus.Status = STATUS_SUCCESS;
     pIrp->IoStatus.Information = 0;
@@ -103,8 +111,22 @@ NTSTATUS DrvRead(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
     return STATUS_SUCCESS;
 }
 
-NTSTATUS DrvWrite(PDEVICE_OBJECT pDeviceObject, PIRP pIRP)
+NTSTATUS DrvRead(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
 {
+    UNREFERENCED_PARAMETER(pDeviceObject);
+
+    // Simply complete the IRP request
+    pIrp->IoStatus.Status = STATUS_SUCCESS;
+    pIrp->IoStatus.Information = 0;
+    IoCompleteRequest(pIrp, IO_NO_INCREMENT);
+
+    return STATUS_SUCCESS;
+}
+
+NTSTATUS DrvWrite(PDEVICE_OBJECT pDeviceObject, PIRP pIrp)
+{
+    UNREFERENCED_PARAMETER(pDeviceObject);
+
     // Simply complete the IRP request
     pIrp->IoStatus.Status = STATUS_SUCCESS;
     pIrp->IoStatus.Information = 0;
