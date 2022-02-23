@@ -1,0 +1,10 @@
+TARGETNAME=hyperclient
+TARGETTYPE=PROGRAM
+
+MSC_WARNING_LEVEL=/W4
+
+SOURCES=hyperclient.cpp
+UMTYPE=console
+UMENTRY=main
+USE_MSVCRT=1
+
