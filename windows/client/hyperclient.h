@@ -2,8 +2,8 @@
 #define _H_HYPERVISOR_
 
 // Function declarations
-string getCPUId(void);
-bool getVMXSupport(void);
+extern void inline getCPUId(void);
+extern bool inline getVMXSupport(void);
 
 #endif
 
