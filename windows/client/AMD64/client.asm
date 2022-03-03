@@ -1,47 +1,49 @@
-PUBLIC MainAsm
+.data
+sysType BYTE 13 dup (?)  ; array of 13 chars
+
 .code _text
 
 getCPUId PROC PUBLIC
-    XOR EAX, EAX
+    XOR RAX, RAX
     CPUID
 
-    MOV EAX, EBX
+    MOV RAX, RBX
     MOV sysType[0], al
     MOV sysType[1], ah
-    SHR EAX, 16
+    SHR RAX, 16
     MOV sysType[2], al
     MOV sysType[3], ah
 
-    MOV EAX, EDX
+    MOV RAX, RDX
     MOV sysType[4], al
     MOV sysType[5], ah
-    SHR EAX, 16
+    SHR RAX, 16
     MOV sysType[6], al
     MOV sysType[7], ah
 
-    MOV EAX, ECX
+    MOV RAX, RCX
     MOV sysType[8], al
     MOV sysType[9], ah
-    SHR EAX, 16
+    SHR RAX, 16
     MOV sysType[10], al
     MOV sysType[11], ah
 
-    MOV sysType[12], 0x00
+    MOV sysType[12], 00h
+
+    MOV RAX, OFFSET sysType
     RET
 getCPUId ENDP
 
 getVMXSupport PROC PUBLIC
-    XOR EAX, EAX
-    INC EAX
+    XOR RAX, RAX
+    INC RAX
     CPUID
-    BT ECX. 0x05
+    BT RCX, 5
     JC _VMX_SUPPORTED
-    XOR EAX, EAX
+    XOR RAX, RAX
     RET
     _VMX_SUPPORTED:
-    MOV EAX 0x01
     RET
 getVMXSupport ENDP
 
 END
-

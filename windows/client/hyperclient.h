@@ -1,9 +1,10 @@
-#ifndef _H_HYPERVISOR_
-#define _H_HYPERVISOR_
+#ifndef _H_HYPERVISOR_CLIENT
+#define _H_HYPERVISOR_CLIENT
 
 // Function declarations
-extern void inline getCPUId(void);
-extern bool inline getVMXSupport(void);
+extern "C" {
+    extern char* getCPUId(void);
+    extern bool getVMXSupport(void);
+}
 
 #endif
-
