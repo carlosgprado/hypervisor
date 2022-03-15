@@ -4,7 +4,6 @@
 #include "common.h"
 
 
-extern "C"
 NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath) {
     NTSTATUS ntStatus = STATUS_SUCCESS;
     UINT64 uiIndex = 0;

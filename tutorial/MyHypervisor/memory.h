@@ -25,7 +25,7 @@ typedef struct _VMState
 } VMState, * PVMState;
 
 //  Keeps track of VM state, for all cores
-extern "C" PVMState pVMStateArray;
+extern PVMState pVMStateArray;
 
 // ------------------------------------------------------------------
 // Structures related to ETP

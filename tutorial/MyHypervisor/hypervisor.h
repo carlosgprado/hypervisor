@@ -7,7 +7,7 @@
 VOID DrvUnload(PDRIVER_OBJECT pDriverObject);
 
 // This is the entry-point for the driver
-extern "C" NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath);
+NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath);
 
 // Major function declarations
 NTSTATUS DrvUnsupported(PDEVICE_OBJECT pDeviceObject, PIRP pIrp);

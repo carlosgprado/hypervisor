@@ -39,28 +39,28 @@
 
 // Functions defined in driver.asm
 // NOTE: extern "C" avoids name mangling for these functions
-extern "C" {
-    /// <summary>
-    /// Sets the 14th bitof CR4. Implemented in ASM.
-    /// </summary>
-    extern void inline enableVMXOperation(void);
-    extern void inline saveVMXOFFState(void);
-    extern void inline restoreVMXOFFState(void);
-    extern void inline vmExitHandler(void);
-    extern ULONG_PTR getGDTBase(void);
-    extern USHORT getGDTLimit(void);
-    extern USHORT getCS(void);
-    extern USHORT getDS(void);
-    extern USHORT getES(void);
-    extern USHORT getSS(void);
-    extern USHORT getFS(void);
-    extern USHORT getGS(void);
-    extern USHORT getLDTR(void);
-    extern USHORT getTR(void);
-    extern ULONG_PTR getIDTBase(void);
-    extern USHORT getIDTLimit(void);
-    extern ULONG_PTR getRFLAGS(void);
-}
+// (only necessary if file has .cpp extension)
+
+/// <summary>
+/// Sets the 14th bitof CR4. Implemented in ASM.
+/// </summary>
+extern void inline enableVMXOperation(void);
+extern void inline saveVMXOFFState(void);
+extern void inline restoreVMXOFFState(void);
+extern void inline vmExitHandler(void);
+extern ULONG_PTR getGDTBase(void);
+extern USHORT getGDTLimit(void);
+extern USHORT getCS(void);
+extern USHORT getDS(void);
+extern USHORT getES(void);
+extern USHORT getSS(void);
+extern USHORT getFS(void);
+extern USHORT getGS(void);
+extern USHORT getLDTR(void);
+extern USHORT getTR(void);
+extern ULONG_PTR getIDTBase(void);
+extern USHORT getIDTLimit(void);
+extern ULONG_PTR getRFLAGS(void);
 
 
 typedef struct _CPUID
@@ -287,7 +287,7 @@ ULONG adjustControls(ULONG ctl, ULONG msr);
 /// the VM_EXIT_REASON value
 /// </summary>
 /// <param name="pGuestRegs">Pointer to structure containing guest register state</param>
-extern "C" void mainVMExitHandler(PGUEST_REGS pGuestRegs);
+extern void mainVMExitHandler(PGUEST_REGS pGuestRegs);
 
 /// <summary>
 /// After a VM-exit occurs, the guest RIP remains unchanged.
@@ -299,6 +299,6 @@ void resumeToNextIns(void);
 /// A wrapper around the VMRESUME instruction
 /// with some debugging / error handling
 /// </summary>
-extern "C" void vmResumer(void);
+extern void vmResumer(void);
 
 #endif  // ! _H_HYPER_CPU
