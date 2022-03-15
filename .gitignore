@@ -6,5 +6,6 @@ objchk_win7_amd64/*
 *.tlog
 *.obj
 *.ipch
-.vs/*
+tutorial/MyHypervisor/.vs
+tutorial/MyHypervisor/.vs/*
 
