@@ -192,6 +192,9 @@ bool launchVM(int processorID, PEPTP pEPTP)
         DbgPrint("[-] Error allocating VMM stack for CPU %d", processorID);
         return false;
     }
+    else {
+        DbgPrint("[+] VMM stack for CPU %d at 0x%X", processorID, pVMStateArray[processorID].VMMStack);
+    }
 
     RtlZeroMemory(pVMStateArray[processorID].VMMStack, VMM_STACK_SIZE);
 
@@ -204,6 +207,9 @@ bool launchVM(int processorID, PEPTP pEPTP)
     {
         DbgPrint("[-] Error allocating MSR bitmap for CPU %d", processorID);
         return false;
+    }
+    else {
+        DbgPrint("[+] MSR bitmap for CPU %d at 0x%X", processorID, pVMStateArray[processorID].MSRBitmap);
     }
 
     RtlZeroMemory(pVMStateArray[processorID].MSRBitmap, PAGE_SIZE);
@@ -394,6 +400,8 @@ void fillGuestSelectorData(
 {
     SEGMENT_SELECTOR segmentSelector = { 0 };
     ULONG ulAccessRights;
+
+    DbgPrint("[+] fillGuestSelectorData - segReg: %d", segReg);
 
     getSegmentDescriptor(&segmentSelector, selector, gdtBase);
     ulAccessRights = *(PULONG)((PUCHAR)&segmentSelector.ATTRIBUTES)[0] + (((PUCHAR)&segmentSelector.ATTRIBUTES)[1] << 12);

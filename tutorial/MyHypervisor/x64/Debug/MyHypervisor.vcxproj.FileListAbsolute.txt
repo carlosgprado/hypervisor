@@ -1,1 +1,0 @@
-C:\Users\user\c0de\hypervisor\tutorial\MyHypervisor\x64\Debug\MyHypervisor.sys

@@ -57,13 +57,29 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject, PUNICODE_STRING pRegistryPath
     // ---------------------------------------------------------------------
     // Let's do some VMX shit already ;)
     // ---------------------------------------------------------------------
-    PEPTP pEPTP = initializeEPTP();
-    DbgPrint("[+] EPTP @ 0x%X\n", pEPTP);
-
-    if (initiateVMX())
+    __try
     {
-        DbgPrint("[+] VMX initialized: OK");
-        ntStatus = STATUS_SUCCESS;
+        PEPTP pEPTP = initializeEPTP();
+        DbgPrint("[+] EPTP @ 0x%X\n", pEPTP);
+
+        if (initiateVMX())
+        {
+            DbgPrint("[+] VMX initialized: OK");
+            ntStatus = STATUS_SUCCESS;
+        }
+
+        for (size_t i = 0; i < (10 * PAGE_SIZE) - 1; i++)
+        {
+            // HLT instructions
+            void* tmpIns = "\xF4";
+            memcpy((PVOID)((PUCHAR)virtualGuestMemoryAddress + i), tmpIns, 1);
+        }
+
+        launchVM(0, pEPTP);
+    }
+    __except (GetExceptionCode())
+    {
+        DbgPrint("[-] DriverEntry: something went horribly wrong!");
     }
 
     return ntStatus;
