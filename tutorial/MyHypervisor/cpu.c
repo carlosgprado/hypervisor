@@ -57,7 +57,7 @@ PVMState initiateVMX()
         kAffinityMask = ipow(2, i);
         KeSetSystemAffinityThread(kAffinityMask);
 
-        DbgPrint("\t\t[+] Current thread is executing in logical CPU %d", i);
+        DbgPrint("[+] ++++ Current thread is executing in logical CPU %d ++++", i);
 
         enableVMXOperation();
         DbgPrint("[+] VMX Operation Enabled: OK");
@@ -176,8 +176,8 @@ bool launchVM(int processorID, PEPTP pEPTP)
     // Pin to a specific core
     kAffinityMask = ipow(2, processorID);
     KeSetSystemAffinityThread(kAffinityMask);
-
-    DbgPrint("[+]\t\tCurrent thread executing on %d logical processor", processorID);
+    DbgPrint("[+] oooo Launching VM! oooo");
+    DbgPrint("[+] ++++ Current thread executing on %d-th logical processor ++++", processorID);
 
     PAGED_CODE();
 
