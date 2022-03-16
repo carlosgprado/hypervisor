@@ -409,6 +409,7 @@ void fillGuestSelectorData(
     if (!selector)
         ulAccessRights |= 0x10000;
 
+    DbgPrint("[+] fillGuestSelectorData - vmx_vmwrite...");
     __vmx_vmwrite(GUEST_ES_SELECTOR + segReg * 2, selector);
     __vmx_vmwrite(GUEST_ES_LIMIT + segReg * 2, segmentSelector.LIMIT);
     __vmx_vmwrite(GUEST_ES_AR_BYTES + segReg * 2, ulAccessRights);
